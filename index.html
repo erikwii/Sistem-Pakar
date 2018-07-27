@@ -1,0 +1,431 @@
+<html>
+    <head>
+        <title>Sispak</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Situs untuk mendiagnosa kemungkinan penyakit Tumor Otak pada diri Anda.">
+        <link rel="shortcut icon" href="assets/img/ai.png" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="theme-color" content="#f8f9fa">
+
+        <link rel="manifest" href="manifest.json">
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/css/animate.css">
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-vue.css">
+
+
+        <!-- development version, includes helpful console warnings -->
+        <script src="assets/js/vue.js"></script>
+        <script src="assets/js/polyfill.min.js"></script>
+        <script src="assets/js/bootstrap-vue.js"></script>
+
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/popper.min.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <!-- Image and text -->
+            <nav class="navbar navbar-light fixed-top" style="background-color: #f8f9fa;">
+              <a class="navbar-brand" v-on:click="goHome">
+                <img src="assets/img/ai.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+                Sispak v_2.0 (beta)
+              </a>
+            </nav>
+
+            <div class="container animated fadeIn" style="margin-top: 70px; margin-bottom: 100px" v-if="home">
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-12">
+                        <div class="alert alert-info alert-dismissible animated-1s fadeInDown" role="alert" id="intro" v-if='submited'>
+                            Aplikasi sistem pakar ini akan mendiagnosa secara dini apakah terdapat potensi Tumor Otak pada diri Anda berdasarkan gejala yang ditimbulkan dengan metode <i>Certainity Factor (CF)</i>. <b>Segera input nama Anda dan klik tombol mulai!</b><!--  <i class="fas fa-heart" style="color: salmon"></i> -->
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2 mb-3">
+                    <div class="col-12 col-lg-4">
+                        <h3>Halo {{ name }}!</h3>
+                    </div>                
+                </div>
+
+                <div class="row my-3" v-if='submited'>
+                    <div class="col-12 col-lg-4 col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" v-model="name" placeholder="Input your name!">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" v-on:click="inputName" type="submit">Mulai</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row my-3 animamted fadeInUp" v-if='mulai'>
+                    <div class="col-12 col-lg-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Symptoms
+                            </div>
+
+                            <div class="card-body" v-if='visible[0]'>
+                                <h5 class="card-title animated fadeIn text-left">Apakah Anda mengalami sakit kepala secara bertahap?</h5>
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(0, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[1]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami mual dan muntah tanpa sebab?</h5>
+                                
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(1, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[2]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami gangguan ingatan?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(2, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[3]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami kejang?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(3, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[4]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami kesemutan dan mati rasa di lengan atau kaki?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(4, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[5]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami gangguan penglihatan seperti penglihatan kabur??</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(5, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[6]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami masalah dengan indra pendengaran?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(6, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-body text-left" v-if='visible[7]'>
+                                <h5 class="card-title animated bounceIn">Apakah Anda mengalami gangguan keseimbangan, kesulitan saat brgerak?</h5>
+
+                                <div class="row animated shake">
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 1)' class="btn btn-outline-primary btn-block my-1">Sangat Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.8)' class="btn btn-outline-primary btn-block my-1">Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.6)' class="btn btn-outline-primary btn-block my-1">Cukup Yakin</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.4)' class="btn btn-outline-primary my-1 btn-block">Sedikit</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0.2)' class="btn btn-outline-primary my-1 btn-block">Tidak Tahu</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button v-on:click='inputWeight(7, 0)' class="btn btn-outline-primary my-1 btn-block">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </div>
+                </div>
+                <!-- Row end -->
+
+                <div class="row mt-2" v-if='selesai'>
+                    <div class="col-12">
+                        <div class="alert alert-success animated bounceIn" role="alert">
+                            <h4 class="alert-heading">Berikut diagnosa Anda:</h4>
+                            <p v-if='cfCombine <= 99'>Dari gejala-gejala yang Anda rasakan, sistem mendiagnosa Anda memiliki <b>{{ diagnostic }}</b> terserang penyakit Tumor Otak dengan persentase <b>{{ cfCombine }}%</b>.</p>
+                            <p v-if='cfCombine > 99'>Dari gejala-gejala yang Anda rasakan, sistem <b>{{ diagnostic }}</b> bahwa Anda terserang penyakit Tumor Otak dengan persentase <b>{{ cfCombine }}%</b>.</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="alert alert-info text-justify animated bounceIn delay-1s" role="alert" v-if="cfCombine < 20">
+                            <p>Pertahankan kesehatan Anda, makanlah makanan sehat dan bergizi, rajinlah berolahraga, dan jangan lupa bahagia :)</p>
+                        </div>
+                        <div class="alert alert-warning text-justify animated bounceIn delay-1s" role="alert" v-if='cfCombine >= 20 && cfCombine <= 99'>
+                            <p>Perlu diperhatikan Anda harus konsultasi kepada dokter Anda untuk pemeriksaan lebih lanjut.</p>
+                        </div>
+                        <div class="alert alert-danger text-justify animated bounceIn delay-1s" role="alert" v-if='cfCombine > 99'>
+                            <p>Segeralah periksakan kesehatan Anda ke dokter agar Anda mendapatkan penanganan medis secepat mungkin.</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary animated bounceIn delay-2s" v-on:click='init'>Ulangi</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Container (APP) end -->
+
+            <div class="container animated-1s fadeIn" style="margin-bottom: 100px; margin-top: 70px" v-if='info'>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Tumor Otak</h3>
+                            </div>
+                            <div class="card-body">
+                                <p>Sekumpulan atau pertumbuhan sel abnormal bersifat kanker atau non-kanker di otak.</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h5 class="text-info">Umum</h5>
+                                    <p>Lebih dari <strong>150 ribu</strong> kasus per tahun (Indonesia)</p>
+                                    <table>
+                                        <tr>
+                                            <td class="text-center"><i class="fas fa-capsules text-warning"></i></td>
+                                            <td>Dapat ditangani tenaga medis profesional</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center"><i class="fas fa-clipboard text-success"></i></td>
+                                            <td>Membutuhkan diagnosis medis</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center"><i class="fas fa-heartbeat text-info"></i></td>
+                                            <td>Selalu memerlukan uji atau pencitraan laboratorium</td>
+                                        </tr>
+                                    </table>
+                                    <br>
+                                    <p>Tumor dapat mulai di otak, atau kanker di tempat lain dalam tubuh dapat menyebar ke otak.</p>
+                                    <p>Gejala berupa sakit kepala baru atau semakin bertambah, penglihatan kabur, hilang keseimbangan, kebingungan, dan kejang. Pada beberapa kasus, tidak ada gejala.</p>
+                                    <p>Penanganan berupa operasi, radiasi, dan kemoterapi.</p>
+                                </li>
+                                <li class="list-group-item">
+                                    <h5>Terpengaruh usia</h5>
+                                    <div class="row my-1">
+                                        <div class="col-3">0-2</div>
+                                        <div class="col-4 bg-info"></div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">3-5</div>
+                                        <div class="col-4 bg-info"></div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">6-13</div>
+                                        <div class="col-4 bg-info"></div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">14-18</div>
+                                        <div class="col-4 bg-info"></div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">19-40</div>
+                                        <div class="col-4 bg-info"></div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">40-60</div>
+                                        <div class="col-4 bg-info"></div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="row my-1">
+                                        <div class="col-3">60+</div>
+                                        <div class="col-9 bg-primary"></div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="card-body">
+                                <b>Sumber:</b> <a href="https://www.google.co.id/search?q=tumor+otak&oq=tumor+otak&aqs=chrome..69i57j0l5.5442j0j7&sourceid=chrome&ie=UTF-8" target="_blank">Google</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" style="margin-top: 70px; margin-bottom: 100px" v-if='about'>
+                <!-- Container About -->
+                <div class="row animated fadeIn">
+                    <div class="col-12 offset-lg-1 col-lg-10">
+                        <div class="card">
+                            <div class="card-header">
+                                About
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Kelompok 5<br>Sistem Pakar Ilmu Komputer UNJ 2015</h5>
+                                <p>Dibuat untuk memenuhi tugas akhir mata kuliah sistem pakar semester 108 (tahun ajaran 2017-2018) oleh mahasiswa Ilmu Komputer UNJ angkatan 2015.</p>
+                                <div class="row text-center">
+                                    <div class="col-lg-4 col-md-4"><a href="https://github.com/erikwii" target="_blank">Erik Santiago</a></div>
+                                    <div class="col-lg-4 col-md-4"><a href="https://github.com/firdausalif" target="_blank">Firdaus Alif F</a></div>
+                                    <div class="col-lg-4 col-md-4"><a href="https://github.com/firiousity" target="_blank">Firly A Maulana</a></div>
+                                    <div class="col-lg-4 offset-lg-2 col-md-4 offset-md-2"><a href="https://instagram.com/chintyayayaa" target="_blank">Chintya Adinda P</a></div>
+                                    <div class="col-lg-4 col-md-4"><a href="https://instagram.com/mesita.c" target="_blank">Mesita Widia C</a></div>
+                                </div>
+                                <hr>
+                                <p class="text-center">&lt;/&gt; with <i class="fas fa-heart" style="color: salmon"></i> @ <a href="https://unj.ac.id">UNJ</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container about end -->
+            </div>
+
+            <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+                <a class="navbar-brand text-white d-lg-none">Menu</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active" v-on:click="goHome" id="homeButton">
+                            <span class="nav-link" style="cursor: pointer;"><i class="fas fa-stethoscope mr-auto"></i> Diagnostic <span class="sr-only">(current)</span></span>
+                        </li>
+                        <li class="nav-item" v-on:click="goInfo" id="infoButton">
+                            <span class="nav-link" style="cursor: pointer;"><i class="fas fa-atlas mr-auto"></i> Info</span>
+                        </li>
+                        <li class="nav-item" v-on:click="goAbout" id="aboutButton">
+                            <span class="nav-link" style="cursor: pointer;"><i class="fas fa-lightbulb mr-2"></i>About</span>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </body>
+    <script type="text/javascript" src="assets/js/script.js"></script>
+</html>
