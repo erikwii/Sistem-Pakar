@@ -83,7 +83,11 @@ var app = new Vue({
             this.mulai = true;
             this.visible[0] = true;
   		}else{
-  			alert('Anda harus mengisi nama Anda!')
+  			swal({
+                title: "Oops!",
+                text: "Anda harus memasukkan nama Anda",
+                icon: "warning"
+            })
   		}
   	},
 

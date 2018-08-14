@@ -2,7 +2,7 @@
   "name": "Sispak",
   "short_name": "Sispak",
   "theme_color": "#143550",
-  "background_color": "#c3cdd5",
+  "background_color": "#ffffff",
   "display": "standalone",
   "Scope": "/sispakv2",
   "start_url": "/sispakv2/",

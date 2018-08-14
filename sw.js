@@ -11,6 +11,7 @@ var urlsToCache = [
 	'/sispakv2/assets/js/polyfill.min.js',
 	'/sispakv2/assets/js/bootstrap.min.js',
 	'/sispakv2/assets/js/bootstrap-vue.js',
+	'/sispakv2/assets/js/sweetalert.min.js',
 	'https://use.fontawesome.com/releases/v5.1.1/css/all.css',
 	'/sispakv2/assets/img/ai.png'
 ];

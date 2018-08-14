@@ -20,13 +20,9 @@ Aplikasi Sistem Pakar Pendiagnosa Tumor Otak dengan Metode Certainty Factor.
     - Buka aplikasi browser Anda seperti Google Chrome dan Mozilla Firefox.
     - masukan link "localhost/sispakv2"
     - Selamat, Anda telah berhasil membukanya!
-    
- + Penggunaan secara online:
-    - Dari browser Google Chrome/Mozilla Firefox Anda masukan link "bit.ly/sispakv2"
-    - Selamat, Anda telah berhasil membukanya!
 
  + Penggunaan pada Smartphone Android:
-    - Pindahkan file "Sispak.apk" ke Smartphone Android Anda.
+    - Pindahkan file "Sispak.apk" yang ada di dalam folder "Android" ke Smartphone Android Anda.
     - Install file "Sispak.apk" pada perangkat Smartphone Android Anda.
     - Setelah berhasil klik "buka"/"open" pada menu di layar bawah.
     - Selamat, Anda telah berhasil membukanya!
