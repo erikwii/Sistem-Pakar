@@ -1,19 +1,19 @@
 var CACHE_NAME = 'sispak-cache-v1';
 var urlsToCache = [
-	'/sispakv2/',
-	'/sispakv2/assets/css/animated.css',
-	'/sispakv2/assets/css/bootstrap.min.css',
-	'/sispakv2/assets/css/bootstrap-vue.css',
-	'/sispakv2/assets/js/script.js',
-	'/sispakv2/assets/js/vue.js',
-	'/sispakv2/assets/js/jquery.min.js',
-	'/sispakv2/assets/js/popper.min.js',
-	'/sispakv2/assets/js/polyfill.min.js',
-	'/sispakv2/assets/js/bootstrap.min.js',
-	'/sispakv2/assets/js/bootstrap-vue.js',
-	'/sispakv2/assets/js/sweetalert.min.js',
+	'/sistem-pakar/',
+	'/sistem-pakar/assets/css/animated.css',
+	'/sistem-pakar/assets/css/bootstrap.min.css',
+	'/sistem-pakar/assets/css/bootstrap-vue.css',
+	'/sistem-pakar/assets/js/script.js',
+	'/sistem-pakar/assets/js/vue.js',
+	'/sistem-pakar/assets/js/jquery.min.js',
+	'/sistem-pakar/assets/js/popper.min.js',
+	'/sistem-pakar/assets/js/polyfill.min.js',
+	'/sistem-pakar/assets/js/bootstrap.min.js',
+	'/sistem-pakar/assets/js/bootstrap-vue.js',
+	'/sistem-pakar/assets/js/sweetalert.min.js',
 	'https://use.fontawesome.com/releases/v5.1.1/css/all.css',
-	'/sispakv2/assets/img/ai.png'
+	'/sistem-pakar/assets/img/ai.png'
 ];
 
 // Install serviceWorker
