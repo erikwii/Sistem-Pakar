@@ -4685,6 +4685,16 @@ tbody.collapse.show {
     padding: 1.25rem
 }
 
+.img-with-text {
+    text-align: justify;
+    width: 480px;
+}
+
+.img-with-text img {
+    display: block;
+    margin: 0 auto;
+}
+
 .card-title {
     margin-bottom: .75rem
 }
