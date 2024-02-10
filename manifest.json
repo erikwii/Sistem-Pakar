@@ -4,8 +4,8 @@
   "theme_color": "#143550",
   "background_color": "#ffffff",
   "display": "standalone",
-  "Scope": "/sispakv2",
-  "start_url": "/sispakv2/",
+  "Scope": "/Sistem-Pakar",
+  "start_url": "/Sistem-Pakar/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
